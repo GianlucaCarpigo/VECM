@@ -1,2 +1,8 @@
 ^VECM\.Rproj$
 ^\.Rproj\.user$
+^LICENSE\.md$
+^README\.Rmd$
+^\.github$
+^CODE_OF_CONDUCT\.md$
+^CONTRIBUTING\.Rmd$
+^issue_template\.Rmd$
