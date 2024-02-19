@@ -1,0 +1,23 @@
+Package: VECM
+Title: Vector Error Correction Model
+Version: 0.1
+Authors@R: 
+    c(person(given = "Gianluca", family = "Carpigo", email = "gianluca.carpigo@uniroma1.it", role = c("aut", "cre")),
+    person(given = "Michele", family = "Cianfriglia", email = "michele.cianfriglia@libero.it", role = "aut"),
+    person(given = "Flaviana", family = "Palmisano", email = "flaviana.palmisano@uniroma1.it", role = "ths"))
+Description: Provides several tools for specification, estimation and diagnosis of a VEC model.
+License: GPL-3
+Encoding: UTF-8
+URL: https://github.com/GianlucaCarpigo/VECM
+BugReports: https://github.com/GianlucaCarpigo/VECM/issues
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Imports:
+    expm,
+    graphics,
+    MASS,
+    matrixcalc,
+    pbapply,
+    stats,
+    utils,
+    viridis

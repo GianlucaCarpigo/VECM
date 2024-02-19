@@ -1,0 +1,108 @@
+---
+output: github_document
+---
+
+# Contributing to VECM
+
+Thank you for taking the time to contribute to **VECM**, your support is appreciated.
+
+Please read our [Code of Conduct](/CODE_OF_CONDUCT.md), avoid inappropriate behavior and respect the community.
+
+## How you can contribute
+
+There are several ways to contribute to **VECM**. You can
+
+- Submit a bug report in an issue.
+
+- Propose an idea for a new feature in a discussion.
+
+- Improve the documentation.
+
+### Issue
+
+Issues are used to track bugs, feature requests, and more.
+
+To [report a bug](https://github.com/GianlucaCarpigo/VECM/issues), please use our bug report [template](/.github/ISSUE_TEMPLATE/issue_template.md). It will help you give us all the information we need to fix the bug.
+
+$\underline{\text{Attention!}}$ Before creating a new issue, check if a related issue already exists. You may find the GitHub [search guide](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests) helpful.
+
+If you have ideas for new features or want to improve the documentation, please do not submit an issue. Instead, follow the instructions in the sections below.
+
+### Discussion
+
+The [discussion forum](https://github.com/GianlucaCarpigo/VECM/discussions) is a place where you can ask questions, suggest ideas for new features, or give feedback.
+
+When opening a discussion, please classify it by applying the correct label. The labels currently available are
+
+- `r emo::ji("speech_balloon")`: feedback.
+- `r emo::ji("speaking_head")`: general.
+- `r emo::ji("sos")`: help.
+- `r emo::ji("light_bulb")`: idea.
+
+If you start a discussion to propose a new feature
+
+- Provide a clear and concise description of what the feature does.
+
+- Explain how to implement the feature. If it helps, you can include a draft of the code.
+
+- Highlight the advantages of the feature.
+
+$\underline{\text{Attention!}}$ Until the feature is approved, pull requests related to it will not be accepted.
+
+$\underline{\text{Attention!}}$ Your code should follow the tidyverse [style guide](https://style.tidyverse.org).
+
+### Documentation
+
+Good documentation helps users understand the package better.
+
+There are several ways to contribute to the documentation. You can
+
+- Fix typos, spelling mistakes, or grammatical errors.
+
+- Improve the description of functions.
+
+- Propose better examples.
+
+To implement any of the above, follow these steps:
+
+1. Go to the `R` folder in the [code repository](https://github.com/GianlucaCarpigo/VECM).
+
+2. Locate the file that contains the function you want to modify.
+
+3. Edit the file.
+
+4. Propose the file change.
+
+$\underline{\text{Attention!}}$ When documenting functions, please use the **roxygen2** [comments](https://roxygen2.r-lib.org/articles/rd.html) together with the R Markdown [syntax](https://cran.r-project.org/web/packages/roxygen2/vignettes/rd-formatting.html).
+
+## Pull request process
+
+The pull request process consists of the following steps:
+
+1. Fork the repository into your GitHub account.
+
+2. Clone the forked repository to your local system.
+
+> Steps 1 and 2 can be implemented using the `usethis::create_from_github(repo_spec = "github-repository", fork = TRUE)` function.
+
+3. Install all development dependencies and make sure the package passes all checks.
+
+> Step 3 can be implemented by running `devtools::install_dev_deps()` and `devtools::check()` consecutively.
+
+4. Create a new branch for your pull request.
+
+> Step 4 can be implemented using the `usethis::pr_init("github-branch-name")` function.
+
+5. Make your changes.
+
+6. Commit and push the changes to GitHub.
+
+> Step 6 can be implemented by calling the `usethis::pr_push()` function and following the prompts in your browser.
+
+$\underline{\text{Attention!}}$ The title of the pull request should briefly describe the changes you have made. If the pull request fixes an issue, the body of your pull request should also contain `Fixes # (issue)`.
+
+## Inspiration
+
+This contribution guide is inspired by the [template](https://gist.github.com/peterdesmet/e90a1b0dc17af6c12daf6e8b2f044e7c) of Peter Desmet and the [template](https://github.com/r-lib/usethis/blob/main/inst/templates/tidy-contributing.md) of the **usethis** package.
+
+The bug report template builds on the Embedded Artistry's [template](https://embeddedartistry.com/blog/2017/08/18/a-github-issue-template-for-your-projects).
