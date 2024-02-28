@@ -7,9 +7,11 @@
 #' @param spec The type of deterministic component to be considered. It can be selected between \code{none} (the default), \code{rconst}, \code{uconst}, \code{rtrend}, and \code{utrend}.
 #' @param method The estimation method of the cointegrating rank. It can be selected between \code{johansen} (the default) and \code{info_criteria}.
 #' @param alpha The significance level used for hypothesis testing.
-#' @param shift ...
-#' @param exogen_ect ...
-#' @param exogen ...
+#' @param shift An integer or a vector. The break point at which there is a change in the levels of the variables.
+#' @param season The number of seasonal dummy variables.
+#' @param season_ref The season selected as reference. If \code{NULL}, the last season is automatically used as reference.
+#' @param exogen_ect The exogenous variable to be included in the error correction term.
+#' @param exogen The exogenous variable to be included outside the error correction term.
 #'
 #' @details When choosing \code{method} = "johansen", the function incorporates both the trace and maximum eigenvalues tests. The determination of the cointegrating rank should consider the results from both tests.
 #'
@@ -57,7 +59,7 @@
 #'
 #' @importFrom stats quantile
 
-cointegration_test <- function(data, p, spec = c("none", "rconst", "uconst", "rtrend", "utrend"), method = c("johansen", "info_criteria"), alpha = 0.05, shift = NULL, exogen_ect = NULL, exogen = NULL) {
+cointegration_test <- function(data, p, spec = c("none", "rconst", "uconst", "rtrend", "utrend"), method = c("johansen", "info_criteria"), alpha = 0.05, shift = NULL, season = NULL, season_ref = NULL, exogen_ect = NULL, exogen = NULL) {
 
   data <- as.matrix(data)
 
@@ -102,7 +104,61 @@ cointegration_test <- function(data, p, spec = c("none", "rconst", "uconst", "rt
     LDY <- rbind(LDY, "const" = 1, "trend" =  1:n)
     n_par <- K * r + K * r + K * (K * p + 2)
   }
+  
+  if (!is.null(shift)) {
+    n_shift <- length(shift)
+    if (n_shift == 1) {
+      shift <- c(rep.int(x = 0, times = shift), rep.int(x = 1, times = N - 1 - shift))[-seq_len(p)]
+      LY <- rbind(LY, shift)
+    } else {
+      shift_mat <- matrix(data = NA, nrow = n_shift, ncol = n)
+      for (i in seq_len(shift)) {
+        shift_mat[i, ] <- c(rep.int(x = 0, times = shift[i]), rep.int(x = 1, times = N - 1 - shift[i]))[-seq_len(p)]
+      }
+      LY <- rbind(LY, shift_mat)
+    }
+    n_par <- n_par + r * n_shift
+  }
 
+  if (!is.null(season)) {
+    if (spec == "none" | spec == "rconst") {
+      warning(paste0("'season' is not taken into account because 'spec' = '", spec, "'."), call. = FALSE)
+    } else {
+      temp <- seasonal_dummies(season = season, season_ref = season_ref)
+      season_mat <- temp
+      while (nrow(season_mat) < N) {
+        season_mat <- rbind(season_mat, temp)
+      }
+      season_mat <- t(season_mat[(p + 2):N, ])
+      LDY <- rbind(LDY, season_mat)
+      n_par <- n_par + K * (season - 1)
+    }
+  }
+  
+  if (!is.null(exogen_ect)) {
+    exogen_ect <- as.matrix(exogen_ect)
+    if (NA %in% exogen_ect) {
+      stop("'exogen_ect' contains missing values.", call. = FALSE)
+    }
+    if (nrow(exogen_ect) != N) {
+      stop("'exogen_ect' exceeds the number of observations.", call. = FALSE)
+    }
+    LY <- rbind(LY, t(exogen_ect[-(1:(p + 1)), ]))
+    n_par <- n_par + r * ncol(exogen_ect)
+  }
+  
+  if (!is.null(exogen)) {
+    exogen <- as.matrix(exogen)
+    if (NA %in% exogen) {
+      stop("'exogen' contains missing values.", call. = FALSE)
+    }
+    if (nrow(exogen) != N) {
+      stop("'exogen' exceeds the number of observations.", call. = FALSE)
+    }
+    LDY <- rbind(LDY, t(exogen[-(1:(p + 1)), ]))
+    n_par <- n_par + K * ncol(exogen)
+  }
+  
   for (i in 1:(K + 1)) {
     if (n < n_par[i]) {
       warning("The number of parameters exceeds the number of observations after adjustments.", call. = FALSE)
@@ -166,7 +222,7 @@ cointegration_test <- function(data, p, spec = c("none", "rconst", "uconst", "rt
 
   if (method == "info_criteria") {
     det_S_00 <- det(S_00)
-    e_val <- V$values
+    e_val <- V$values[1:K]
     log_e_val <- log(1 - e_val)
     log_sum <- c(0, cumsum(log_e_val))
     log_lik <- rep(x = NA, times = K + 1)
