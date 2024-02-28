@@ -32,11 +32,13 @@ plot.VECM_forecast <- function(x, type = c("area", "interval", "line"), show = 5
     h <- nrow(x$forecast)
     for (i in 1:length(var_names)) {
       limits <- range(data_hat[, i])
-      y_lim <- c(min(limits[1], x$CI_forecast[h, 1, i]) * 0.9, max(limits[2], x$CI_forecast[h, 2, i]) * 1.1)
+      limits[1] <- ifelse(test = limits[1] < 0, yes = limits[1] * 1.1, no = limits[1] * 0.9)
+      limits[2] <- ifelse(test = limits[2] < 0, yes = limits[2] * 0.9, no = limits[2] * 1.1)
+      y_lim <- c(min(limits[1], x$CI_forecast[h, 1, i]), max(limits[2], x$CI_forecast[h, 2, i]))
       x_lim <- tail(x = 1:(nrow(x$data) + h), n = show + h)[c(1, show + h)]
       plot(x = NULL, y = NULL, xlim = x_lim, ylim = y_lim, xlab = "", ylab = "")
-      title(xlab = "time", line = 2.3)
-      title(ylab = var_names[i], line = 2.3)
+      title(xlab = "time", line = 2.4)
+      title(ylab = var_names[i], line = 2.4)
       if (observed) {
         points(x = x_lim[1]:nrow(x$data), y = x$data[x_lim[1]:nrow(x$data), i], type = "l", lend = 1, lwd = 2)
       }
@@ -52,11 +54,13 @@ plot.VECM_forecast <- function(x, type = c("area", "interval", "line"), show = 5
     if (x$type == "static") {
       for (i in 1:length(var_names)) {
         limits <- range(data_hat[, i])
-        y_lim <- c(min(limits[1], x$CI_forecast[1, i]) * 0.9, max(limits[2], x$CI_forecast[2, i]) * 1.1)
+        limits[1] <- ifelse(test = limits[1] < 0, yes = limits[1] * 1.1, no = limits[1] * 0.9)
+        limits[2] <- ifelse(test = limits[2] < 0, yes = limits[2] * 0.9, no = limits[2] * 1.1)
+        y_lim <- c(min(limits[1], x$CI_forecast[1, i]), max(limits[2], x$CI_forecast[2, i]))
         x_lim <- tail(x = 1:(nrow(x$data) + 1), n = show + 1)[c(1, show + 1)]
         plot(x = NULL, y = NULL, xlim = x_lim, ylim = y_lim, xlab = "", ylab = "")
-        title(xlab = "time", line = 2.3)
-        title(ylab = var_names[i], line = 2.3)
+        title(xlab = "time", line = 2.4)
+        title(ylab = var_names[i], line = 2.4)
         if (observed) {
           points(x = x_lim[1]:nrow(x$data), y = x$data[x_lim[1]:nrow(x$data), i], type = "l", lend = 1, lwd = 2)
         }
@@ -67,11 +71,13 @@ plot.VECM_forecast <- function(x, type = c("area", "interval", "line"), show = 5
       h <- nrow(x$forecast)
       for (i in 1:length(var_names)) {
         limits <- range(data_hat[, i])
-        y_lim <- c(min(limits[1], x$CI_forecast[h, 1, i]) * 0.9, max(limits[2], x$CI_forecast[h, 2, i]) * 1.1)
+        limits[1] <- ifelse(test = limits[1] < 0, yes = limits[1] * 1.1, no = limits[1] * 0.9)
+        limits[2] <- ifelse(test = limits[2] < 0, yes = limits[2] * 0.9, no = limits[2] * 1.1)
+        y_lim <- c(min(limits[1], x$CI_forecast[h, 1, i]), max(limits[2], x$CI_forecast[h, 2, i]))
         x_lim <- tail(x = 1:(nrow(x$data) + h), n = show + h)[c(1, show + h)]
         plot(x = NULL, y = NULL, xlim = x_lim, ylim = y_lim, xlab = "", ylab = "")
-        title(xlab = "time", line = 2.3)
-        title(ylab = var_names[i], line = 2.3)
+        title(xlab = "time", line = 2.4)
+        title(ylab = var_names[i], line = 2.4)
         if (observed) {
           points(x = x_lim[1]:nrow(x$data), y = x$data[x_lim[1]:nrow(x$data), i], type = "l", lend = 1, lwd = 2)
         }
@@ -89,11 +95,13 @@ plot.VECM_forecast <- function(x, type = c("area", "interval", "line"), show = 5
     h <- nrow(x$forecast)
     for (i in 1:length(var_names)) {
       limits <- range(data_hat[, i])
-      y_lim <- c(min(limits[1], x$CI_forecast[h, 1, i]) * 0.9, max(limits[2], x$CI_forecast[h, 2, i]) * 1.1)
+      limits[1] <- ifelse(test = limits[1] < 0, yes = limits[1] * 1.1, no = limits[1] * 0.9)
+      limits[2] <- ifelse(test = limits[2] < 0, yes = limits[2] * 0.9, no = limits[2] * 1.1)
+      y_lim <- c(min(limits[1], x$CI_forecast[h, 1, i]), max(limits[2], x$CI_forecast[h, 2, i]))
       x_lim <- tail(x = 1:(nrow(x$data) + h), n = show + h)[c(1, show + h)]
       plot(x = NULL, y = NULL, xlim = x_lim, ylim = y_lim, xlab = "", ylab = "")
-      title(xlab = "time", line = 2.3)
-      title(ylab = var_names[i], line = 2.3)
+      title(xlab = "time", line = 2.4)
+      title(ylab = var_names[i], line = 2.4)
       if (observed) {
         points(x = x_lim[1]:nrow(x$data), y = x$data[x_lim[1]:nrow(x$data), i], type = "l", lend = 1, lwd = 2)
       }
