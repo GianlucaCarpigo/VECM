@@ -48,7 +48,7 @@ stability_check <- function(object, plot = TRUE) {
 
   if (plot) {
     par(pty = "s")
-    plot(roots, ylim = c(-1, 1), xlim = c(-1, 1), asp = 1, main = "Roots of the companion matrix",
+    plot(roots, ylim = c(-1, 1), xlim = c(-1, 1), asp = 1, ylab = "Im(eigen)", xlab = "Re(eigen)", main = "Eigenvalues of the companion matrix",
     panel.first = c(lines(complex(modulus = 1, argument = 0.01 * 2 * pi)^(0:100), col = 'grey'),
     abline(h = 0, col = 'grey'), abline(v = 0, col = 'grey')))
     par(pty = "m")
