@@ -38,10 +38,10 @@ print.VECM_forecast <- function(x) {
     prmatrix(x = formatC(x = out, digits = 5, format = "f"), rowlab = c("ME", "RMSE", "MAE", "MPE", "MAPE", "U1", "U2"), collab = var_names, quote = FALSE, right = TRUE)
   } else {
     row_names <- paste0("T + ", 1:nrow(x$forecast), " | T")
-    sd <- aperm(a = sqrt(x$sigma_forecast), perm = c(3, 1, 2))
+    sigma_perm <- aperm(a = x$sigma_forecast, perm = c(3, 1, 2))
     for (i in 1:length(var_names)) {
       cat(paste0("\nEquation ", i, ": ", var_names[i], "\n\n"))
-      out <- cbind(x$forecast[, i], sd[, i, i], x$CI_forecast[, 1, i], x$CI_forecast[, 2, i])
+      out <- cbind(x$forecast[, i], sqrt(sigma_perm[, i, i]), x$CI_forecast[, 1, i], x$CI_forecast[, 2, i])
       prmatrix(x = formatC(x = out, digits = 5, format = "f"), rowlab = row_names, collab = c("forecast", "se", "lower", "upper"), quote = FALSE, right = TRUE)
     }
     cat("\nFORECAST EVALUATION STATISTICS UP TO TIME T\n\n")
