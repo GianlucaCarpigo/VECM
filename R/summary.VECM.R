@@ -76,7 +76,7 @@ summary.VECM <- function(x) {
   beta_k_r <- beta[-(1:r), ]
 
   if (is.vector(beta_k_r)) {
-    beta_k_r <- as.matrix(beta_k_r)
+    beta_k_r <- matrix(data = beta_k_r, nrow = K - r, ncol = r)
     rownames(beta_k_r) <- beta_names[-(1:r)]
   }
 
@@ -91,7 +91,11 @@ summary.VECM <- function(x) {
   beta_pval <- 2 * pt(q = abs(beta_tval), df = n - d, lower.tail = FALSE)
 
   coef_star <- apply(X = beta_pval, MARGIN = 2, FUN = symnum, cutpoints = c(0, 0.01, 0.05, 0.1, 1), symbols = c("***", "** ", "*  ", ""), legend = FALSE, numeric.x = TRUE, corr = FALSE)
-
+  
+  if (is.vector(coef_star)) {
+    coef_star <- matrix(data = coef_star, nrow = K - r, ncol = r)
+  }
+  
   for (i in 1:r) {
     cat("\nNormalization with respect to:", beta_names[i], "\n\n")
     temp <- cbind(beta_k_r[, i], beta_se[, i], beta_tval[, i], beta_pval[, i])
