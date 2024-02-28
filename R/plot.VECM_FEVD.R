@@ -24,10 +24,10 @@ plot.VECM_FEVD <- function(x) {
   var_names <- colnames(x$W[,, 1])
   cols <- viridis_pal()(K)
   for (i in 1:K) {
-    barplot(t(x$W[,, i]), names.arg = as.character(1:h), xlab = "", ylab = "", col = cols)
+    barplot(t(x$W[,, i]), names.arg = as.character(1:h), xlab = "", ylab = "", ylim = c(0, 1.15), col = cols)
     title(xlab = "horizon", line = 2.4)
-    title(ylab = "percentage", line = 2.4)
+    title(ylab = "share", line = 2.4)
     title(main = paste0("variance decomposition of ", var_names[i]))
-    legend(x = "top", legend = var_names, bty = "n", horiz = TRUE, xpd = TRUE, inset = c(0, 1.3), fill = cols)
+    legend(x = "top", legend = var_names, bty = "n", horiz = TRUE, fill = cols, text.width = NA)
   }
 }
