@@ -11,6 +11,8 @@ cointegration_test(
   method = c("johansen", "info_criteria"),
   alpha = 0.05,
   shift = NULL,
+  season = NULL,
+  season_ref = NULL,
   exogen_ect = NULL,
   exogen = NULL
 )
@@ -26,11 +28,15 @@ cointegration_test(
 
 \item{alpha}{The significance level used for hypothesis testing.}
 
-\item{shift}{...}
+\item{shift}{An integer or a vector. The break point at which there is a change in the levels of the variables.}
 
-\item{exogen_ect}{...}
+\item{season}{The number of seasonal dummy variables.}
 
-\item{exogen}{...}
+\item{season_ref}{The season selected as reference. If \code{NULL}, the last season is automatically used as reference.}
+
+\item{exogen_ect}{The exogenous variable to be included in the error correction term.}
+
+\item{exogen}{The exogenous variable to be included outside the error correction term.}
 }
 \value{
 An object of class \code{cointegration_test} is a list with the following components: \cr
