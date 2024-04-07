@@ -27,8 +27,8 @@ VECM_MA <- function(object) {
 
   id_mat <- diag(x = 1, nrow = K, ncol = K)
 
-  model_coef <- coef.VECM(object)
-
+  model_coef <- coef(object)
+  
   gamma <- model_coef$gamma
 
   p <- object$model$p
@@ -66,7 +66,7 @@ VECM_MA <- function(object) {
   if (spec == "uconst" | spec == "rtrend") {
     sigma_names <- rownames(sigma_alphagamma)
     temp <- paste0("const:", rownames(alpha))
-    temp <- which(temp == sigma_names)
+    temp <- which(temp %in% sigma_names)
     sigma_alphagamma <- sigma_alphagamma[-temp, -temp]
   }
 
@@ -74,7 +74,33 @@ VECM_MA <- function(object) {
     sigma_names <- rownames(sigma_alphagamma)
     alpha_names <- rownames(alpha)
     temp <- c(paste0("const:", alpha_names), paste0("trend:", alpha_names))
-    temp <- which(temp == sigma_names)
+    temp <- which(temp %in% sigma_names)
+    sigma_alphagamma <- sigma_alphagamma[-temp, -temp]
+  } 
+  
+  season <- object$model$season
+  
+  if (!is.null(season)) {
+    sigma_names <- rownames(sigma_alphagamma)
+    alpha_names <- rownames(alpha)
+    temp <- NULL
+    for (i in 1:K) {
+      temp <- c(temp, paste0("season_", c(1:season), ":", alpha_names[i]))
+    }
+    temp <- which(temp %in% sigma_names)
+    sigma_alphagamma <- sigma_alphagamma[-temp, -temp]
+  }
+  
+  exogen_names <- rownames(object$model$exogen)
+  
+  if (!is.null(exogen_names)){
+    sigma_names <- rownames(sigma_alphagamma)
+    alpha_names <- rownames(alpha)
+    temp <- NULL
+    for (i in 1:K) {
+      temp <- c(temp, paste0(exogen_names, ":", alpha_names[i]))
+    }
+    temp <- which(temp %in% sigma_names)
     sigma_alphagamma <- sigma_alphagamma[-temp, -temp]
   }
 
