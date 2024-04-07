@@ -186,9 +186,10 @@ VECM <- function(data, p, r, method = c("ML", "EGLS"), spec = c("none", "rconst"
     if (NA %in% exogen_ect) {
       stop("'exogen_ect' contains missing values.", call. = FALSE)
     }
-    exogen_ect_row <- nrow(exogen_ect)
+    #exogen_ect_row <- nrow(exogen_ect)
     if (is.null(q_ect)) {
-      if (exogen_ect_row != N) {
+      #if (exogen_ect_row != N) {
+      if (nrow(exogen_ect) != N) {
         stop("The number of observations for the exogenous variable must match the number of observations for the endogenous variables.", call. = FALSE)
       }
     }
@@ -201,6 +202,7 @@ VECM <- function(data, p, r, method = c("ML", "EGLS"), spec = c("none", "rconst"
     temp_2 <- rownames(D_ect)
     if (is.null(q_ect)) {
       exogen_ect <- t(exogen_ect[-(1:(p + 1)), ])
+      rownames(exogen_ect) <- temp_1
       LY <- rbind(LY, exogen_ect)
       rownames(LY) <- c(temp, temp_1)
       D_ect <- rbind(D_ect, exogen_ect)
@@ -211,7 +213,8 @@ VECM <- function(data, p, r, method = c("ML", "EGLS"), spec = c("none", "rconst"
       }
       temp_1 <- c(temp_1, paste0(temp_1, "_L", 1:q_ect))
       exogen_ect <- embed(x = exogen_ect, dimension = q_ect + 1)
-      w <- exogen_ect_row - n
+      #w <- exogen_ect_row - n
+      w <- nrow(exogen_ect) - n
       if (w > 0) {
         exogen_ect <- t(exogen_ect[-(1:w), ])
         LY <- rbind(LY, exogen_ect)
@@ -227,10 +230,11 @@ VECM <- function(data, p, r, method = c("ML", "EGLS"), spec = c("none", "rconst"
         rownames(D_ect) <- c(temp_2, temp_1)
       }
       if (w < 0) {
-        stop(" ", call. = FALSE)
+        return()
       }
+      rownames(exogen_ect) <- temp_1
     }
-    n_par <- n_par + r * exogen_ect_row
+    n_par <- n_par + r
   }
 
   if (!is.null(exogen)) {
@@ -238,9 +242,10 @@ VECM <- function(data, p, r, method = c("ML", "EGLS"), spec = c("none", "rconst"
     if (NA %in% exogen) {
       stop("'exogen' contains missing values.", call. = FALSE)
     }
-    exogen_row <- nrow(exogen)
+    #exogen_row <- nrow(exogen)
     if (is.null(q)) {
-      if (exogen_row != N) {
+      #if (exogen_row != N) {
+      if (nrow(exogen) != N) {
         stop("The number of observations for the exogenous variable must match the number of observations for the endogenous variables.", call. = FALSE)
       }
     }
@@ -253,6 +258,7 @@ VECM <- function(data, p, r, method = c("ML", "EGLS"), spec = c("none", "rconst"
     temp_2 <- rownames(D)
     if (is.null(q)) {
       exogen <- t(exogen[-(1:(p + 1)), ])
+      rownames(exogen) <- temp_1
       LDY <- rbind(LDY, exogen)
       rownames(LDY) <- c(temp, temp_1)
       D <- rbind(D, exogen)
@@ -263,7 +269,8 @@ VECM <- function(data, p, r, method = c("ML", "EGLS"), spec = c("none", "rconst"
       }
       temp_1 <- c(temp_1, paste0(temp_1, "_L", 1:q))
       exogen <- embed(x = exogen, dimension = q + 1)
-      w <- exogen_row - n
+      #w <- exogen_row - n
+      w <- nrow(exogen) - n
       if (w > 0) {
         exogen <- t(exogen[-(1:w), ])
         LDY <- rbind(LDY, exogen)
@@ -279,10 +286,11 @@ VECM <- function(data, p, r, method = c("ML", "EGLS"), spec = c("none", "rconst"
         rownames(D) <- c(temp_2, temp_1)
       }
       if (w < 0) {
-        stop("", call. = FALSE)
+        return()
       }
+      rownames(exogen) <- temp_1
     }
-    n_par <- n_par + K * exogen_row
+    n_par <- n_par + K
   }
 
   if (n < n_par) {
