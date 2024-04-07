@@ -44,7 +44,11 @@
 port_test <- function(object, lag = 10) {
 
   if (!inherits(object, what = "VECM")) {
-    stop("The object is not of class 'VECM'.")
+    stop("The object is not of class 'VECM'.", call. = FALSE)
+  }
+  
+  if (!is.null(object$model$exogen) | !is.null(object$model$exogen_ect)) {
+    stop("The portmanteau test can not be applied with exogenous variables.", call. = FALSE)
   }
 
   K <- object$model$K
@@ -52,7 +56,11 @@ port_test <- function(object, lag = 10) {
   n <- object$model$n
   p <- object$model$p
   r <- object$model$r
-
+  
+  if (lag <= p) {
+    stop("The number of tested lagged autocorrelations must be greater than 'p'.", call. = FALSE)
+  }
+  
   u <- object$u
   u_cent <- u - rowMeans(u)
 
@@ -64,13 +72,13 @@ port_test <- function(object, lag = 10) {
     }
   }
 
-  c_lag <- matrix(data = C, nrow = lag * K^2, ncol = 1)
+  C_lag <- matrix(data = C, nrow = lag * K^2, ncol = 1)
   C_0 <- tcrossprod(x = u_cent, y = u_cent)
 
-  stat <- n * t(c_lag) %*% solve(diag(x = 1, nrow = lag, ncol = lag) %x% C_0 %x% C_0) %*% c_lag
-  stat_adj <- n^2 * t(c_lag) %*% solve(diag(x = (n - 1):(n - lag), nrow = lag, ncol = lag) %x% C_0 %x% C_0) %*% c_lag
+  stat <- n * t(C_lag) %*% solve(diag(x = 1, nrow = lag, ncol = lag) %x% C_0 %x% C_0) %*% C_lag
+  stat_adj <- n^2 * t(C_lag) %*% solve(diag(x = (n - 1):(n - lag), nrow = lag, ncol = lag) %x% C_0 %x% C_0) %*% C_lag
 
-  df <- K^2 * (lag - p + 1) - r * K
+  df <- K^2 * (lag - p) - r * K
   stat_pval <- pchisq(q = stat, df = df, lower.tail = FALSE)
   stat_adj_pval <- pchisq(q = stat_adj, df = df, lower.tail = FALSE)
 
@@ -79,6 +87,3 @@ port_test <- function(object, lag = 10) {
   return(structure(.Data = output, class = "port_test"))
 
 }
-
-
-
