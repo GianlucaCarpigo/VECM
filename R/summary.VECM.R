@@ -76,7 +76,7 @@ summary.VECM <- function(x) {
   beta_k_r <- beta[-(1:r), ]
 
   if (is.vector(beta_k_r)) {
-    beta_k_r <- matrix(data = beta_k_r, nrow = K - r, ncol = r)
+    beta_k_r <- matrix(data = beta_k_r, nrow = nrow(beta) - r, ncol = r)
     rownames(beta_k_r) <- beta_names[-(1:r)]
   }
 
