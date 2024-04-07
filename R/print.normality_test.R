@@ -23,20 +23,20 @@ print.normality_test <- function(x) {
 
   skewness_df <- data.frame("skewness" = c(x$b1, NA),
                             "chi-squared" = c(x$b1_chisq, x$b1_joint),
-                            "df" = c(rep(1, times = K), K),
+                            "df" = c(rep(x = 1, times = K), K),
                             "p-value" = c(x$b1_pval, x$b1_joint_pval),
                             row.names = c(var_names, "joint"),
                             check.names = FALSE)
 
   kurtosis_df <- data.frame("kurtosis" = c(x$b2, NA),
                             "chi-squared" = c(x$b2_chisq, x$b2_joint),
-                            "df" = c(rep(1, times = K), K),
+                            "df" = c(rep(x = 1, times = K), K),
                             "p-value" = c(x$b2_pval, x$b2_joint_pval),
                             row.names = c(var_names, "joint"),
                             check.names = FALSE)
 
   JB_df <- data.frame("Jarque-Bera" = c(x$JB, x$JB_joint),
-                      "df" = c(rep(K, times = K), 2 * K),
+                      "df" = c(rep(x = 2, times = K), 2 * K),
                       "p-value" = c(x$JB_pval, x$JB_joint_pval),
                       row.names = c(var_names, "joint"),
                       check.names = FALSE)
