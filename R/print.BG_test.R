@@ -20,11 +20,15 @@ print.BG_test <- function(x) {
   cat(paste("Null hypothesis: residuals are not autocorrelated up to lag", x$lag, "\n\n"))
   type <- x$type
   cat("Test version:", type, "\n\n")
-  if (type == "Rao"){
-    cat(paste0("F-value: ", formatC(x = x$stat, digits = 5, format = "f"), ", df: (", paste(trunc(x$df), collapse = ", "), "), p-value: ", formatC(x = x$stat_pval, digits = 5, format = "f")))
-  } else {
+  if (type == "LM"){
+    cat(paste0("Chi-squared: ", formatC(x = x$stat, digits = 5, format = "f"), ", df: ", x$df, ", p-value: ", formatC(x = x$stat_pval, digits = 5, format = "f")))
+  } else if (type == "LR") {
     cat(paste0("Chi-squared: ", formatC(x = x$stat, digits = 5, format = "f"), ", df: ", x$df, ", p-value: ", formatC(x = x$stat_pval, digits = 5, format = "f")))
     cat("\n\n")
     cat(paste0("Adjusted Chi-squared: ", formatC(x = x$stat_adj, digits = 5, format = "f"), ", df: ", x$df, ", p-value: ", formatC(x = x$stat_adj_pval, digits = 5, format = "f")))
+    cat("\n---")
+    cat("\nEdgeworth expansion correction")
+  } else {
+    cat(paste0("F-value: ", formatC(x = x$stat, digits = 5, format = "f"), ", df: (", paste(trunc(x$df), collapse = ", "), "), p-value: ", formatC(x = x$stat_pval, digits = 5, format = "f")))
   }
 }

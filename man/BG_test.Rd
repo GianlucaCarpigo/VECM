@@ -4,14 +4,14 @@
 \alias{BG_test}
 \title{Breusch-Godfrey autocorrelation test}
 \usage{
-BG_test(object, lag, type = c("LR", "LM", "Rao"))
+BG_test(object, lag, type = c("LM", "LR", "Rao"))
 }
 \arguments{
 \item{object}{An object of class \code{VECM}.}
 
 \item{lag}{The lag order of auxiliary regression model.}
 
-\item{type}{The test version. It can be selected between \code{LR} (the default), \code{LM} and \code{Rao}.}
+\item{type}{The test version. It can be selected between \code{LM} (the default), \code{LR} and \code{Rao}.}
 }
 \value{
 An object of class \code{BG_test} is a list with the following components: \cr
@@ -25,7 +25,7 @@ An object of class \code{BG_test} is a list with the following components: \cr
 \item{lag}{The lag order of auxiliary regression model.}
 }
 \description{
-This function tests the serial correlation of residuals using the Breusch-Godfrey test. The user can choose between three versions of the test: likelihood ratio (\code{LR}), Lagrange multiplier (\code{LM}) and Rao.
+This function tests the serial correlation of residuals using the Breusch-Godfrey test. The user can choose between three versions of the test: Lagrange multiplier (\code{LM}), likelihood ratio (\code{LR}) and Rao.
 }
 \details{
 This test should be applied for a \code{lag} less than the VECM lag order. For a greater lag, it is suggested to use the portmanteau test (\code{\link{port_test}}).
@@ -50,6 +50,8 @@ print(test_Rao)
 Lütkepohl, H., & Krätzig, M. (2004). \emph{Applied time series econometrics}. Cambridge: Cambridge University Press.
 
 Lütkepohl, H. (2005). \emph{New introduction to multiple time series analysis}. New York: Springer.
+
+Edgerton, D. & Shukur, G. (1999). \emph{Testing autocorrelation in a system perspective}. Econometric Reviews.
 }
 \seealso{
 \code{\link{VECM}}
