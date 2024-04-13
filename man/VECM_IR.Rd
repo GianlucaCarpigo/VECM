@@ -16,25 +16,37 @@ VECM_IR(
 
 \item{horizon}{The forecasting horizon.}
 
-\item{transform}{...}
+\item{transform}{The residuals transformation. It can be chosen between \code{none} (the default) and \code{orthogonal}.}
 
-\item{method}{...}
+\item{method}{The method used to compute IR standard errors. It can be chosen between \code{none} (the default) and \code{analytic}.}
 }
 \value{
 An object of class \code{VECM_IR} is a list with the following components: \cr
 
-\item{theta}{...}
-\item{sigma_theta}{...}
-\item{theta_cum}{...}
-\item{sigma_theta_cum}{...}
-\item{transform}{...}
-\item{method}{...}
+\item{theta}{The matrix containing the estimated impulse response functions.}
+\item{sigma_theta}{The covariance matrix of the matrix \code{theta}.}
+\item{theta_cum}{The matrix containing the accumulated estimates of the impulse response functions.}
+\item{sigma_theta_cum}{The covariance matrix of the matrix \code{theta_cum}.}
+\item{transform}{The residuals transformation.}
+\item{method}{The method used to compute IR standard errors.}
 }
 \description{
 This function calculates impulse response functions for VEC models.
 }
 \examples{
-#ciao
+\dontrun{
+#' require(bvartools)
+
+## The data for this example are taken from Lütkepohl, 2005.
+data("e6")
+
+model <- VECM(data = e6, p = 3,  r = 1, method = "EGLS", spec = "uconst", season = 4)
+
+IR <- VECM_IR(object = model, transform = "orthogonal", method = "analytic"))
+
+print(x = IR, cum = TRUE)
+
+}
 
 }
 \references{
