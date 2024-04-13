@@ -45,12 +45,13 @@
 granger_test <- function(object, dip, indip) {
 
   if (!inherits(object, what = "VECM")) {
-    stop("The object is not of class 'VECM'.")
+    stop("The object is not of class 'VECM'.", call. = FALSE)
   }
 
   var_names <- colnames(object$model$data)
+  
   if (!min(dip %in% var_names) | !min(indip %in% var_names)) {
-    stop("The selected variables are not included in the dataset.")
+    stop("The selected variables are not included in the dataset.", call. = FALSE)
   }
 
   n <- object$model$n
@@ -69,10 +70,12 @@ granger_test <- function(object, dip, indip) {
 
   theta <- matrix(data = cbind(pi, gamma), nrow = nrow(sigma_theta), ncol = 1, dimnames = list(temp))
 
-  link <- paste0(dip, "_D <- ", indip, "_L")
-
-  for (i in 1:p) {
-    link <- c(link, paste0(dip, "_D <- ", indip, "_LD", i, sep = ""))
+  link <- NULL
+  for (i in 1:length(indip)) {
+    link <- c(link, paste0(dip, "_D <- ", indip[i], "_L"))
+    for (j in 1:p) {
+      link <- c(link, paste0(dip, "_D <- ", indip[i], "_LD", j, sep = ""))
+    }
   }
 
   R <- NULL
