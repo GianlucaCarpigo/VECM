@@ -8,6 +8,7 @@
 #'
 #' \item{A}{A matrix containing the VAR coefficients.}
 #' \item{sigma_A}{The covariance matrix of the matrix \code{A}.}
+#' \item{D}{A matrix containing the deterministic components.}
 #' \item{Z}{A matrix containing both the current levels and the corresponding lagged levels data.}
 #'
 #' @author Gianluca Carpigo \email{gianluca.carpigo@@uniroma1.it}
@@ -56,19 +57,21 @@ VECM_to_VAR <- function(object) {
   }
   dimnames(A) <- list(var_names, temp)
 
-# if (is.null(model_coef$D_ect)) {
-#   deter <- NULL
-# } else {
-#   deter <- object$alpha %*% t(model_coef$D_ect)
-#   rownames(deter) <- var_names
-# }
-
-# if (is.null(model_coef$D)) {
-#   deter_1 <- NULL
-# } else {
-#   deter_1 <- model_coef$D
-#   rownames(deter_1) <- var_names
-# }
+  if (is.null(model_coef$D_ect)) {
+    deter_ect <- NULL
+  } else {
+    deter_ect <- object$alpha %*% t(model_coef$D_ect)
+    rownames(deter_ect) <- var_names
+  }
+ 
+  if (is.null(model_coef$D)) {
+    deter <- NULL
+  } else {
+    deter <- model_coef$D
+    rownames(deter) <- var_names
+  }
+  
+  D <- cbind(deter, deter_ect)
 
   n <- object$model$n
   u <- object$u
@@ -82,7 +85,7 @@ VECM_to_VAR <- function(object) {
 
   sigma_A <- kronecker(X = solve(Z %*% t(Z)), Y = u %*% t(u))
   dimnames(sigma_A) <- list(temp1, temp1)
-  output <- list("A" = A, "sigma_A" = sigma_A, "Z" = Z)
+  output <- list("A" = A, "sigma_A" = sigma_A, "D" = D, "Z" = Z)
 
   return(structure(.Data = output, class = "VAR"))
 }

@@ -14,6 +14,7 @@ An object of class \code{VAR} with the following components: \cr
 
 \item{A}{A matrix containing the VAR coefficients.}
 \item{sigma_A}{The covariance matrix of the matrix \code{A}.}
+\item{D}{A matrix containing the deterministic components.}
 \item{Z}{A matrix containing both the current levels and the corresponding lagged levels data.}
 }
 \description{
