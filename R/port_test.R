@@ -62,19 +62,18 @@ port_test <- function(object, lag = 10) {
   }
   
   u <- object$u
-  u_cent <- u - rowMeans(u)
-
+  
   C <- array(data = 0, dim = c(K, K, lag))
 
   for (i in 1:lag) {
     for (j in (i + 1):n) {
-      C[,, i] <- C[,, i] + tcrossprod(x = u_cent[, j], y = u_cent[, j - i])
+      C[,, i] <- C[,, i] + tcrossprod(x = u[, j], y = u[, j - i])
     }
   }
 
-  C_lag <- matrix(data = C, nrow = lag * K^2, ncol = 1)
-  C_0 <- tcrossprod(x = u_cent, y = u_cent)
-
+  C_lag <- matrix(data = C, nrow = lag * K^2, ncol = 1) / n
+  C_0 <- object$sigma_u
+  
   stat <- n * t(C_lag) %*% solve(diag(x = 1, nrow = lag, ncol = lag) %x% C_0 %x% C_0) %*% C_lag
   stat_adj <- n^2 * t(C_lag) %*% solve(diag(x = (n - 1):(n - lag), nrow = lag, ncol = lag) %x% C_0 %x% C_0) %*% C_lag
 
