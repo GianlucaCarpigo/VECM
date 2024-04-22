@@ -141,7 +141,7 @@ plot.VECM_IR <- function(x, type = c("area", "line"), cum = FALSE) {
           }
         }
       }
-      par(mfrow = c(1, 1))
     }
   }
+  par(mfrow = c(1, 1))
 }
