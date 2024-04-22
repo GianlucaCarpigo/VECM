@@ -2,7 +2,7 @@
 % Please edit documentation in R/VECM_FEVD.R
 \name{VECM_FEVD}
 \alias{VECM_FEVD}
-\title{Forecast error variance decompositions}
+\title{Forecast error variance decomposition}
 \usage{
 VECM_FEVD(object, horizon = 10)
 }
@@ -18,7 +18,7 @@ An object of class \code{VECM_FEVD} is a list with the following components: \cr
 \item{forecast_error}{Forecast standard errors.}
 }
 \description{
-This function calculates the forecast error variance decompositions.
+This function calculates the forecast error variance decomposition.
 }
 \examples{
 \dontrun{

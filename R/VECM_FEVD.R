@@ -1,6 +1,6 @@
-#' Forecast error variance decompositions
+#' Forecast error variance decomposition
 #'
-#' This function calculates the forecast error variance decompositions.
+#' This function calculates the forecast error variance decomposition.
 #'
 #' @param object An object of class \code{VECM}.
 #' @param horizon The time period over which the decomposition is performed.
