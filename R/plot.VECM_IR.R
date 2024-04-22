@@ -22,11 +22,9 @@ plot.VECM_IR <- function(x, type = c("area", "line"), cum = FALSE) {
   h <- dim(x$theta)[1]
   x_seq <- 1:h
   var_names <- colnames(x$theta[,, 1])
-  
-  
+  par(mfrow = c(K, K), mar = c(2, 1.5, 1.5, 1.5))
   if (x$method == "none") {
     if (cum) {
-      par(mfrow = c(K, K), pty = "s")
       for (i in 1:K) {
         for (j in 1:K) {
           temp <- paste0("Cumulative response of ", var_names[i], " to ", var_names[j])
@@ -36,7 +34,6 @@ plot.VECM_IR <- function(x, type = c("area", "line"), cum = FALSE) {
         }
       }
     } else {
-      par(mfrow = c(K, K), pty = "s")
       for (i in 1:K) {
         for (j in 1:K) {
           temp <- paste0("Response of ", var_names[i], " to ", var_names[j])
@@ -82,7 +79,6 @@ plot.VECM_IR <- function(x, type = c("area", "line"), cum = FALSE) {
         }
       }
       if (type == "line") {
-        par(mfrow = c(K, K), pty = "s")
         for (i in 1:K) {
           for (j in 1:K) {
             temp <- paste0("Cumulative response of ", var_names[i], " to ", var_names[j])
@@ -96,7 +92,6 @@ plot.VECM_IR <- function(x, type = c("area", "line"), cum = FALSE) {
         }
       } else {
         x_lim <- c(x_seq, rev(x_seq))
-        par(mfrow = c(K, K), pty = "s")
         for (i in 1:K) {
           for (j in 1:K) {
             temp <- paste0("Cumulative response of ", var_names[i], " to ", var_names[j])
@@ -119,7 +114,6 @@ plot.VECM_IR <- function(x, type = c("area", "line"), cum = FALSE) {
         }
       }
       if (type == "line") {
-        par(mfrow = c(K, K), pty = "s")
         for (i in 1:K) {
           for (j in 1:K) {
             temp <- paste0("Response of ", var_names[i], " to ", var_names[j])
@@ -132,7 +126,6 @@ plot.VECM_IR <- function(x, type = c("area", "line"), cum = FALSE) {
           }
         }
       } else {
-        par(mfrow = c(K, K), pty = "s")
         x_lim <- c(x_seq, rev(x_seq))
         for (i in 1:K) {
           for (j in 1:K) {
@@ -148,7 +141,7 @@ plot.VECM_IR <- function(x, type = c("area", "line"), cum = FALSE) {
           }
         }
       }
-      par(mfrow = c(1, 1), pty = "m")
+      par(mfrow = c(1, 1))
     }
   }
 }
