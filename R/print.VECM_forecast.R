@@ -27,7 +27,7 @@ print.VECM_forecast <- function(x) {
   U_1 <- RMSE * 1 / (sqrt(apply(X = x$data^2, MARGIN = 2, FUN = mean)) + sqrt(apply(X = (x$data - u)^2, MARGIN = 2, FUN = mean)))
   U_2 <- sqrt(apply(X = (u[-1, ] / x$data[-nrow(x$data), ])^2, MARGIN = 2, FUN = mean) * 1 / apply(X = (diff(x$data) / x$data[-nrow(x$data), ])^2, MARGIN = 2, FUN = mean))
   if (x$type == "static") {
-    sd <- diag(x$sigma_forecast)
+    sd <- sqrt(diag(x$sigma_forecast))
     for (i in 1:length(var_names)) {
       cat(paste0("\nEquation ", i, ": ", var_names[i], "\n\n"))
       out <- cbind(x$forecast[, i], sd[i], x$CI_forecast[1, i], x$CI_forecast[2, i])
