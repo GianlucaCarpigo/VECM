@@ -22,7 +22,7 @@ plot.VECM_IR <- function(x, type = c("area", "line"), cum = FALSE) {
   h <- dim(x$theta)[1]
   x_seq <- 1:h
   var_names <- colnames(x$theta[,, 1])
-  par(mfrow = c(K, K), mar = c(2, 1.5, 1.5, 1.5))
+  par(mfrow = c(K, K), mar = c(2, 2, 1.5, 1.5))
   if (x$method == "none") {
     if (cum) {
       for (i in 1:K) {
@@ -143,5 +143,5 @@ plot.VECM_IR <- function(x, type = c("area", "line"), cum = FALSE) {
       }
     }
   }
-  par(mfrow = c(1, 1))
+  par(mfrow = c(1, 1), mar = c(5, 4, 4, 2) + 0.1)
 }
