@@ -58,6 +58,7 @@ VECM_forecast <- function(object, horizon = 10, type = c("static", "dynamic"), a
 
   K <- object$model$K
   p <- object$model$p
+  n <- object$model$n
 
   data <- object$model$data[-(1:(p + 1)), ]
 
@@ -72,7 +73,7 @@ VECM_forecast <- function(object, horizon = 10, type = c("static", "dynamic"), a
     y <- apply(X = data, MARGIN = 2, FUN = rev)[1:(p + 1), ]
     y <- c(t(y))
     data_new <- t(A %*% y)
-    sigma_data_new <- sigma_u
+    sigma_data_new <- (n + K * p + 1) / n * sigma_u
     sd <- sqrt(diag(sigma_data_new))
     CI <- matrix(data = NA, nrow = 2, ncol = K)
     dimnames(CI) <- c(list(c("lower", "upper"), colnames(data)))
@@ -131,7 +132,6 @@ VECM_forecast <- function(object, horizon = 10, type = c("static", "dynamic"), a
       }
       omega[,, h] <- temp
     }
-    n <- object$model$n
     sigma_data_new <- array(data = NA, dim = c(K, K, horizon))
     dimnames(sigma_data_new) <- list(colnames(data), colnames(data), NULL)
     sd <- matrix(data = NA, nrow = horizon, ncol = K)
