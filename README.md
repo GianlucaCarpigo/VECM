@@ -8,7 +8,15 @@
 
 ## Overview
 
-…
+The **VECM** package provides tools for estimating and analyzing
+multivariate time series data that exhibit long-term equilibrium
+relationships, allowing for the incorporation of both short-term
+dynamics and long-run cointegration between variables. It facilitates
+model specification, estimation, impulse response analysis, and
+forecasting.
+
+The package is on development and further features will be introduced in
+future versions.
 
 ## Installation
 
